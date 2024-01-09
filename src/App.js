@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useRef } from "react";
+import "./App.css";
+import { getAllData, saveItem } from "./firebase/functions/function";
 
 function App() {
+  const fname = useRef();
+  const email = useRef();
+
+  const save = () => {
+    const data = {
+      email: fname.current.value,
+      fname: fname.current.value,
+    };
+
+    saveItem(data);
+  };
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <input type="text" ref={fname} />
+        <input type="text" ref={email} />
+        <button onClick={save}>save</button>
+      </div>
     </div>
   );
 }
